@@ -1,0 +1,22 @@
+library("gplots")
+library("heatmap.plus")
+library("RColorBrewer")
+library("pheatmap")
+par(mar=c(1,1,1,1))
+test <- read.csv("C:/Users/POCHIANG/Google Drive/NHRI/Dr Su/new gating RNA SEQ/for R heat map/delete 0/B1a_Immunosuppressive cytokines to be analyzed.csv")
+y <- data.matrix(test)
+x<- t(y)
+colnames(x) <- c("CD23-control","CD23-control CPG","CD23-control CPG plus p38 inhi","CD23-cko",
+                 "CD23-cko CPG", "CD23-cko CPG plus p38 inhi","mb-1-control","mb-1-control CPG",
+                 "mb-1-control CPG plus p38 inhi","mb-1-cko","mb-1-cko CPG","mb-1-cko CPG plus p38 inhi")
+genotype_col <- data.frame(
+  genotype = rep(c("CD23_control", "CD23_cko","mb1_control","mb1_cko"),c(3,3,3,3)),
+  stimulation=rep(c("rest","CPG_stimulation","CPG_plus_P38_inhi"),4)
+)
+row.names(genotype_col) <- c("CD23-control","CD23-control CPG","CD23-control CPG plus p38 inhi","CD23-cko", "CD23-cko CPG", "CD23-cko CPG plus p38 inhi","mb-1-control","mb-1-control CPG","mb-1-control CPG plus p38 inhi","mb-1-cko","mb-1-cko CPG","mb-1-cko CPG plus p38 inhi")
+my_colors =list(
+  genotype = c(CD23_control="black", CD23_cko="red",mb1_control="blue",mb1_cko="green"),
+  stimulation = c(rest = "#FFE1FF", CPG_stimulation = "#D02090",CPG_plus_P38_inhi="#8B7B8B")
+)
+pheatmap(x, cluster_cols = F,scale="row", cluster_rows= F, annotation_col = genotype_col,cexRow =0.2,cellwidth = 25, cellheight=10,annotation_colors = my_colors)
+
